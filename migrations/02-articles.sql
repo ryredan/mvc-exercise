@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS articles(
+    id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    title VARCHAR(255) NOT NULL,
+    content TEXT NOT NULL,
+    url VARCHAR(255) NOT NULL,
+    description VARCHAR(255)
+)
