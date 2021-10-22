@@ -9,14 +9,28 @@ class ContactController extends Controller
             'description' => 'Contact us using out email form'
         );
 
-        if (isset($_POST['email']))
+        if($_POST)
         {
-            if($_POST['abc'] == date("Y"))
+            try
             {
                 $emailSender = new EmailSender();
-                $emailSender->send("admin@address.com", "Email from your website", $_POST['message'], $_POST['email']);
+                $emailSender->sendWithAntispam($_POST['antispam'], "admin@address.com", "Email from your website", $_POST['message'], $_POST['email']);
+                $this->addMessage('The email was successfully sent.');
+                $this->redirect('contact');
+            }
+            catch (UserException $ex)
+            {
+                $this->addMessage($ex->getMessage());
             }
         }
+        // if (isset($_POST['email']))
+        // {
+        //     if($_POST['abc'] == date("Y"))
+        //     {
+        //         $emailSender = new EmailSender();
+        //         $emailSender->send("admin@address.com", "Email from your website", $_POST['message'], $_POST['email']);
+        //     }
+        // }
         $this->view = 'contact';
     }
 }

@@ -52,4 +52,26 @@ class Db
         $result->execute($params);
         return $result->rowCount();
     }
+
+    public static function insert($table, $params = array())
+    {
+        return self::query("INSERT INTO `$table` (`".
+        implode('`, `', array_keys($params)) . 
+        '`) VALUES ("' . str_repeat('?, ', sizeof($params)-1). "?)",
+        array_values($params));
+    }
+
+    public static function update($table, $values = array(), $condition, $params = array())
+    {
+        return self::query("UPDATE `$table` SET `".
+        implode('` = ? `', array_keys($values)).
+        '` = ? '. $condition,
+        array_merge(array_values($values), $params));
+    }
+
+    public static function getLastId()
+    {
+        return self::$connection->lastInsertId();
+    }
+
 }

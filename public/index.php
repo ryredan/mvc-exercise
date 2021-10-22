@@ -1,4 +1,5 @@
 <?php
+session_start();
 mb_internal_encoding('UTF-8');
 
 function autoloadFunction($class)
@@ -14,6 +15,8 @@ function autoloadFunction($class)
 }
 
 spl_autoload_register("autoloadFunction");
+
+Db::connect("127.0.0.1", "root", "12345", "mvc");
 
 $router = new RouterController();
 $router->process(array($_SERVER['REQUEST_URI']));
